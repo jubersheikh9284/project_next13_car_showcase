@@ -20,5 +20,10 @@
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
-  }
+  },
+  "description": "![Car Showcase](https://i.ibb.co/GxvFJDZ/Thumbnail.png)",
+  "main": "next.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
