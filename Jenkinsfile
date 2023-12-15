@@ -25,8 +25,8 @@ pipeline {
 	registryCredential = 'ecr:us-east-1:awscred'
         appRegistry = '501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg'
         vprofileRegistry = "https://501715535647.dkr.ecr.us-east-1.amazonaws.com" 
-        // cluster = "vprostaging"
-        // service = "vproappstagesvc"
+        cluster = "vprostaging"
+        service = "vproappstagesvc"
     }
 
     stages {
@@ -62,7 +62,15 @@ pipeline {
             }
           }
         }   
-    }  
+    }
+       stage('Deploy to ECS staging') {
+            steps {
+                withAWS(credentials: 'awscred', region: 'us-east-1') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                } 
+            }
+        }    
+    }
 post {
         always {
             echo 'Slack Notifications.'
