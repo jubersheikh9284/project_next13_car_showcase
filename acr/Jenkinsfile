@@ -28,7 +28,8 @@ pipeline {
         // cluster = "vprostaging"
         // service = "vproappstagesvc"
         // Azure Container Registry details
-        acrServer = 'https://carshowcaseimg.azurecr.io'
+        registryName = 'carshowcaseimg'
+        acrServer = 'carshowcaseimg.azurecr.io'
         acrCredential = 'acr-creds' // Jenkins credential ID for ACR
 
 
@@ -52,7 +53,7 @@ pipeline {
          stage('Build App Image') {
             steps {
                 script {
-                    dockerImage = docker.build("carshowcaseimg.azurecr.io/carshowcase" + ":$BUILD_NUMBER", ".")
+                    dockerImage = docker.build acrServer
                 }
             }
         }
@@ -60,8 +61,8 @@ pipeline {
         stage('Upload App Image') {
           steps{
             script {
-              docker.withRegistry( acrServer, acrCredential ) {
-                dockerImage.push("$BUILD_NUMBER")
+              docker.withRegistry( "http://${acrServer}", acrCredential ) {
+                dockerImage.push()
                 //dockerImage.push('latest')
               }
             }
