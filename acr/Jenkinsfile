@@ -61,7 +61,7 @@ pipeline {
         stage('Upload App Image') {
           steps{
             script {
-              docker.withRegistry( "http://${acrServer}", acrCredential ) {
+              docker.withRegistry( "https://${acrServer}", acrCredential ) {
                 dockerImage.push()
                 //dockerImage.push('latest')
               }
