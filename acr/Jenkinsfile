@@ -52,7 +52,7 @@ pipeline {
          stage('Build App Image') {
             steps {
                 script {
-                    dockerImage = docker.build( acrServer + "/carshowcase" + ":$BUILD_NUMBER", ".")
+                    dockerImage = docker.build("carshowcaseimg.azurecr.io/carshowcase" + ":$BUILD_NUMBER", ".")
                 }
             }
         }
