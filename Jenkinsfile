@@ -6,7 +6,7 @@ def COLOR_MAP = [
 pipeline {
     agent any
     tools {
-        node "nodejs"
+         nodejs 'nodejs'
         jdk "OracleJDK8"
     }
     
@@ -25,8 +25,8 @@ pipeline {
 	registryCredential = 'ecr:us-east-1:awscred'
         appRegistry = '501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg'
         vprofileRegistry = "https://501715535647.dkr.ecr.us-east-1.amazonaws.com" 
-        // cluster = "vprostaging"
-        // service = "vproappstagesvc"
+        cluster = "vrostagging"
+        service = "vproappstagesvc"
     }
 
     stages {
@@ -61,8 +61,9 @@ pipeline {
               }
             }
           }
-        }   
-    }  
+        }     
+    }
+       
 post {
         always {
             echo 'Slack Notifications.'
