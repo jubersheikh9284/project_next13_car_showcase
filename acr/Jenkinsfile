@@ -53,7 +53,8 @@ pipeline {
          stage('Build App Image') {
             steps {
                 script {
-                    dockerImage = docker.build acrServer
+                    dockerImage = docker.build("${acrServer}:${BUILD_NUMBER}", ".")
+                }
                 }
             }
         }
