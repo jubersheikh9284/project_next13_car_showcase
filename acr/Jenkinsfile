@@ -29,7 +29,7 @@ pipeline {
         // service = "vproappstagesvc"
         // Azure Container Registry details
         acrServer = 'carshowcaseimg.azurecr.io'
-        acrCredential = 'acr-cred' // Jenkins credential ID for ACR
+        acrCredential = 'acr-creds' // Jenkins credential ID for ACR
 
 
     }
