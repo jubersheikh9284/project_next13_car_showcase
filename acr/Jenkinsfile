@@ -62,7 +62,7 @@ pipeline {
             script {
               docker.withRegistry( acrServer, acrCredential ) {
                 dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
+                //dockerImage.push('latest')
               }
             }
           }
