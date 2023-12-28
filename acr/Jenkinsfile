@@ -40,7 +40,7 @@ stage('Upload App Image') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'acr-creds', passwordVariable: 'password', usernameVariable: 'username')]) {
             sh "docker login -u ${username} -p ${password} carprofileregistry.azurecr.io"
-            sh "docker image push carprofileregistry.azurecr.io/mycarimage:${BUILD_NUMBER}"
+            sh "docker image push carprofileregistry.azurecr.io/mycarimage:14"
         }
     }
 }
