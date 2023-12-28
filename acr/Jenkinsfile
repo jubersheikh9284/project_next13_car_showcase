@@ -6,31 +6,13 @@ def COLOR_MAP = [
 pipeline {
     agent any
     tools {
-       nodejs 'nodejs'
+        node "nodejs"
         jdk "OracleJDK8"
     }
     
     environment {
-        // SNAP_REPO = 'vprofile-snapshot'
-		// NEXUS_USER = 'admin'
-		// NEXUS_PASS = 'admin123'
-		// RELEASE_REPO = 'vprofile-release'
-		// CENTRAL_REPO = 'vpro-maven-central'
-		// NEXUSIP = '172.31.88.91'
-		// NEXUSPORT = '8081'
-		// NEXUS_GRP_REPO = 'vpro-maven-group'
-        // NEXUS_LOGIN = 'nexuslogin'
-        // SONARSERVER = 'sonarserver'
-        //SONARSCANNER = 'sonarscanner'
-	    registryCredential = 'ecr:us-east-1:awscred'
-        appRegistry = '501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg'
-        vprofileRegistry = "https://501715535647.dkr.ecr.us-east-1.amazonaws.com" 
-        // cluster = "vprostaging"
-        // service = "vproappstagesvc"
-        // Azure Container Registry details
-        registryName = 'carshowcaseimg'
-        acrServer = 'carshowcaseimg.azurecr.io'
-        acrCredential = 'acr-creds' // Jenkins credential ID for ACR
+	acrServer = 'carshowcaseimg.azurecr.io'
+        acrCredential = 'acr-cred' // Jenkins credential ID for ACR
 
 
     }
@@ -38,7 +20,8 @@ pipeline {
     stages {
         stage('Build'){
             steps {
-                sh 'npm install'
+                //sh 'npm install'
+                echo "Build"
             }
         }
 
@@ -52,24 +35,23 @@ pipeline {
 
          stage('Build App Image') {
             steps {
-                script {
-                    dockerImage = docker.build("${acrServer}:${BUILD_NUMBER}", ".")
-                }
+                sh 'docker image build -t carprofileregistry.azurecr.io/mycarimage:${BUILD_NUMBER} .'
                 }
             }
-
-        
-        stage('Upload App Image') {
+            
+            
+         stage('Upload App Image') {
           steps{
-            script {
-              docker.withRegistry( "https://${acrServer}", acrCredential ) {
-                dockerImage.push()
-                //dockerImage.push('latest')
-              }
+            withCredentials([usernamePassword(credentialsId: 'acr_cred', passwordVariable: 'password', UsnernameVariable: 'username')]){
+            sh 'docker login -u ${username} -p ${password} carprofileregistry.azurecr.io'
+            sh 'docker image push carprofileregistry.azurecr.io/mycarimage:{BUILD_NUMBER}'       
+            }      
+               }
             }
-          }
-        }   
-    }  
+            
+        }
+    }
+  
 post {
         always {
             echo 'Slack Notifications.'
