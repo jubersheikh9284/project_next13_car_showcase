@@ -30,17 +30,17 @@ pipeline {
             }
         }
 
-        // stage('Build App Image') {
-        //     steps {
-        //         sh 'docker image build -t carprofileregistry.azurecr.io/mycarimage:${BUILD_NUMBER} .'
-        //     }
-        // }
+        stage('Build App Image') {
+            steps {
+                sh 'docker image build -t liferythem.azurecr.io/mycarimage: .'
+            }
+        }
             
 stage('Upload App Image') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'acr-creds', passwordVariable: 'password', usernameVariable: 'username')]) {
-            sh "docker login -u ${username} -p ${password} carprofileregistry.azurecr.io"
-            sh "docker image push carprofileregistry.azurecr.io/mycarimage:14"
+            sh "docker login -u ${username} -p ${password} liferythem.azurecr.io"
+            sh "docker image push liferythem.azurecr.io/mycarimage:${BUILD_NUMBER}"
         }
     }
 }
