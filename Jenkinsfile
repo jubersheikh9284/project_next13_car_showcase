@@ -77,7 +77,14 @@ script {
             
             // Remove Docker images
            if (dockerImage) {
-                docker.image(dockerImage.id).remove()
+                def existingImage = docker.image(dockerImage.id)
+                if (existingImage.exists()) {
+                    echo "Docker image exists. Removing..."
+                    existingImage.remove()
+                    echo "Docker image removed."
+                } else {
+                    echo "Docker image does not exist. No need to remove."
+                }
             }
         }
     }
