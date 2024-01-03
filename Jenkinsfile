@@ -73,6 +73,14 @@ post {
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
 
 		cleanWs()
+
+		def imageTags = ["${BUILD_NUMBER}", "latest"]
+            imageTags.each { tag ->
+                def imageWithTag = "${appRegistry}:${tag}"
+                if (docker.image(imageWithTag)) {
+                    docker.image(imageWithTag).remove()
+                }
+            }
         }
     }
 	
