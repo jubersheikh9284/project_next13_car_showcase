@@ -32,7 +32,7 @@ pipeline {
 
         stage('Build App Image') {
             steps {
-                sh 'docker image build -t liferythem.azurecr.io/mycarimage: .'
+                sh 'docker image build -t liferythem.azurecr.io/mycarimage:${BUILD_NUMBER} .'
             }
         }
             
