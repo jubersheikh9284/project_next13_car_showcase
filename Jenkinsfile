@@ -58,7 +58,7 @@ pipeline {
             script {
               docker.withRegistry( vprofileRegistry, registryCredential ) {
                 dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
+               
               }
             }
           }
@@ -76,14 +76,9 @@ script {
             cleanWs()
             
             // Remove Docker images
-            def imageTags = ["${BUILD_NUMBER}", "latest"]
-            imageTags.each { tag ->
-                def imageWithTag = "${appRegistry}:${tag}"
-                if (docker.image(imageWithTag)) {
-                    docker.image(imageWithTag).remove()
-                }
+           if (dockerImage) {
+                docker.image(dockerImage.id).remove()
             }
-        }
         }
     }
 	
