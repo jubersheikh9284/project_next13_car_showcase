@@ -45,19 +45,19 @@ pipeline {
 
         }
 
-        //  stage('Build App Image') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build( appRegistry , ".")
-        //         }
-        //     }
-        // }
+         stage('Build App Image') {
+            steps {
+                script {
+                    dockerImage = docker.build( appRegistry + ":30", ".")
+                }
+            }
+        }
         
         stage('Upload App Image') {
           steps{
             script {
               docker.withRegistry( vprofileRegistry, registryCredential ) {
-              dockerImage.push(appRegistry + ":latest")
+              dockerImage.push(appRegistry + ":30")
                
               }
             }
