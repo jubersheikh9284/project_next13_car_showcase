@@ -87,18 +87,13 @@ pipeline {
 post {
         always {
 script {
-            echo 'Slack Notifications.'
+            cleanWs()
+
+
+	   echo 'Slack Notifications.'
             slackSend channel: '#vprofilecicd',
                 color: COLOR_MAP[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
-
-            cleanWs(cleanWhenNotBuilt: true,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
-            
             // Remove Docker images
            // if (dockerImage) {
            //      def existingImage = docker.image(dockerImage.id)
