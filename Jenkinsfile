@@ -73,19 +73,24 @@ script {
                 color: COLOR_MAP[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
 
-            cleanWs()
+            cleanWscleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
             
             // Remove Docker images
-           if (dockerImage) {
-                def existingImage = docker.image(dockerImage.id)
-                if (existingImage.exists()) {
-                    echo "Docker image exists. Removing..."
-                    existingImage.remove()
-                    echo "Docker image removed."
-                } else {
-                    echo "Docker image does not exist. No need to remove."
-                }
-            }
+           // if (dockerImage) {
+           //      def existingImage = docker.image(dockerImage.id)
+           //      if (existingImage.exists()) {
+           //          echo "Docker image exists. Removing..."
+           //          existingImage.remove()
+           //          echo "Docker image removed."
+           //      } else {
+           //          echo "Docker image does not exist. No need to remove."
+           //      }
+           //  }
         }
     }
 	
