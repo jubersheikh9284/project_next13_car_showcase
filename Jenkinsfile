@@ -45,24 +45,24 @@ pipeline {
 
         }
 
-        //  stage('Build App Image') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", ".")
-        //         }
-        //     }
-        // }
+         stage('Build App Image') {
+            steps {
+                script {
+                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", ".")
+                }
+            }
+        }
         
-        // stage('Upload App Image') {
-        //   steps{
-        //     script {
-        //       docker.withRegistry( vprofileRegistry, registryCredential ) {
-        //       dockerImage.push("$BUILD_NUMBER")
+        stage('Upload App Image') {
+          steps{
+            script {
+              docker.withRegistry( vprofileRegistry, registryCredential ) {
+              dockerImage.push("$BUILD_NUMBER")
                
-        //       }
-        //     }
-        //   }
-        // }  
+              }
+            }
+          }
+        }  
 
          stage('Delete Docker Image and Resources') {
             steps {
