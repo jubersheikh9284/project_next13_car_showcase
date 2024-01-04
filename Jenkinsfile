@@ -62,7 +62,20 @@ pipeline {
               }
             }
           }
-        }     
+        }  
+
+         stage('Delete Docker Image and Resources') {
+            steps {
+                script {
+                    // Delete the Docker image locally
+                   // sh 'docker rmi your-image-name:latest'
+                    dockerImage.remove()
+                    // Optionally, clean up other resources associated with the build
+                    // For example, remove volumes, containers, etc.
+                    // sh 'docker rm -v your-container-id'
+                }
+            }
+        } 
     }
        
 post {
