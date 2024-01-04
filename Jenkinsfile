@@ -57,7 +57,7 @@ pipeline {
           steps{
             script {
               docker.withRegistry( vprofileRegistry, registryCredential ) {
-                dockerImage.push()
+                dockerImage.push(appRegistry)
                
               }
             }
