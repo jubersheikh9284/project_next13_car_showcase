@@ -48,7 +48,7 @@ pipeline {
          stage('Build App Image') {
             steps {
                 script {
-                    dockerImage = docker.build( appRegistry + "10", ".")
+                    dockerImage = docker.build( appRegistry , ".")
                 }
             }
         }
