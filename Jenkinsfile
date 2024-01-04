@@ -48,7 +48,7 @@ pipeline {
          stage('Build App Image') {
             steps {
                 script {
-                    dockerImage = docker.build( appRegistry + ":30", ".")
+                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", ".")
                 }
             }
         }
@@ -57,7 +57,7 @@ pipeline {
           steps{
             script {
               docker.withRegistry( vprofileRegistry, registryCredential ) {
-              dockerImage.push(appRegistry + ":30")
+              dockerImage.push("$BUILD_NUMBER")
                
               }
             }
