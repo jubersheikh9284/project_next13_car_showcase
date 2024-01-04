@@ -70,7 +70,8 @@ pipeline {
                     // Delete the Docker image locally
                    // sh 'docker rmi your-image-name:latest'
                   //  dockerImage.remove()
-                    sh 'docker image rm 501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg:32'
+			echo 'docker image rm 501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg:"$BUILD_NUMBER" '
+                   // sh 'docker image rm 501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg:$BUILD_NUMBER'
 			// Optionally, clean up other resources associated with the build
                     // For example, remove volumes, containers, etc.
                     // sh 'docker rm -v your-container-id'
