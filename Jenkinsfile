@@ -45,38 +45,38 @@ pipeline {
 
         }
 
-         stage('Build App Image') {
+        //  stage('Build App Image') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", ".")
+        //         }
+        //     }
+        // }
+        
+        // stage('Upload App Image') {
+        //   steps{
+        //     script {
+        //       docker.withRegistry( vprofileRegistry, registryCredential ) {
+        //       dockerImage.push("$BUILD_NUMBER")
+               
+        //       }
+        //     }
+        //   }
+        // }  
+
+         stage('Delete Docker Image and Resources') {
             steps {
                 script {
-                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", ".")
+                    // Delete the Docker image locally
+                   // sh 'docker rmi your-image-name:latest'
+                  //  dockerImage.remove()
+                    sh 'docker image rm 501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg:32'
+			// Optionally, clean up other resources associated with the build
+                    // For example, remove volumes, containers, etc.
+                    // sh 'docker rm -v your-container-id'
                 }
             }
-        }
-        
-        stage('Upload App Image') {
-          steps{
-            script {
-              docker.withRegistry( vprofileRegistry, registryCredential ) {
-              dockerImage.push("$BUILD_NUMBER")
-               
-              }
-            }
-          }
-        }  
-
-   //       stage('Delete Docker Image and Resources') {
-   //          steps {
-   //              script {
-   //                  // Delete the Docker image locally
-   //                 // sh 'docker rmi your-image-name:latest'
-   //                //  dockerImage.remove()
-   //                  sh 'docker image rm 501715535647.dkr.ecr.us-east-1.amazonaws.com/carshowcaseimg'
-			// // Optionally, clean up other resources associated with the build
-   //                  // For example, remove volumes, containers, etc.
-   //                  // sh 'docker rm -v your-container-id'
-   //              }
-   //          }
-   //      } 
+        } 
     }
        
 post {
